@@ -5,14 +5,15 @@
         static void Main(string[] args)
         {
             var list = new LinkedList<int>();
-            for(int i = 0; i < 2; i++)
+            for(int i = 0; i < 1; i++)
             {
                 list.Insert(i);
             }
 
             list.Print();
-            list.HeadToTail();
+            list.TailToHead();
             list.Print();
+            Console.WriteLine(list.Count);
         }
     }
 
@@ -33,6 +34,7 @@
     public class LinkedList<T>
     {
         public Node<T> Head { get; set; }
+        public int Count { get; private set; }
 
         public void Insert(T data)
         {
@@ -43,6 +45,8 @@
                 Head.Prev = node;
 
             Head = node;
+
+            Count++;
         }
 
         public Node<T> Last()
@@ -57,6 +61,9 @@
 
         public void Reverse()
         {
+            if (Count <= 1)
+                return;
+
             Node<T> next = null;
             Node<T> prev = null;
             Node<T> current = Head;
@@ -74,6 +81,9 @@
 
         public void HeadToTail()
         {
+            if (Count <= 1)
+                return;
+
             var temp = Head;
             var last = Last();
 
@@ -86,6 +96,25 @@
                 Head = temp.Next;
                 temp.Next = null;
             }
+        }
+
+        public void TailToHead()
+        {
+            if (Count <= 1)
+                return;
+
+            var last = Last();
+            var temp = Head;
+            
+            if(last.Prev != null)
+            {
+                last.Prev.Next = null;
+            }
+
+            temp.Prev = last;
+            last.Next = temp;
+            last.Prev = null;
+            Head = last;
         }
 
         public void Print()
