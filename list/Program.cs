@@ -9,11 +9,11 @@ namespace list
             var list = new LinkedList<int>();
             for(int i = 0; i < 10; i++)
             {
-                list.Insert(i / 2);
+                list.Insert(i);
             }
 
             list.Print();
-            list.DeleteNodes(list.FindDuplicates());
+            list.InsertSelf(4);
             list.Print();
 
             Console.WriteLine(list.Count);
@@ -51,6 +51,47 @@ namespace list
             Head = node;
 
             Count++;
+        }
+
+        public void InsertSelf(T value)
+        {
+            var foundNode = Find(value);
+            var copy = CreateCopy();
+
+            if (foundNode != null)
+            {
+                var temp = foundNode.Next;
+                foundNode.Next = copy.Head;
+                copy.Last().Next = temp;
+            }
+        }
+
+        public LinkedList<T> CreateCopy()
+        {
+            var copy = new LinkedList<T>();
+
+            var temp = Last();
+            while (temp != null)
+            {
+                copy.Insert(temp.Data);
+                temp = temp.Prev;
+            }
+
+            return copy;
+        }
+
+        public Node<T>? Find(T value)
+        {
+            var temp = Head;
+
+            while(temp != null)
+            {
+                if (temp.Data.Equals(value))
+                    return temp;
+                temp = temp.Next;
+            }
+
+            return null;
         }
 
         public Node<T>? Last()
