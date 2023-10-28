@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.Metrics;
+using System.Net.Http.Headers;
 
 namespace list
 {
@@ -7,20 +8,20 @@ namespace list
         static void Main(string[] args)
         {
             var list = new LinkedList<int>();
-            for(int i = 0; i < 10; i++)
+            for(int i = 10; i >= 0; i-=2)
             {
                 list.Insert(i);
             }
 
             list.Print();
-            list.InsertSelf(4);
+            list.InsertOrder(7);
             list.Print();
 
             Console.WriteLine(list.Count);
         }
     }
 
-    public class Node<T> where T : notnull
+    public class Node<T> where T : notnull, IComparable<T>
     {
         public T Data { get; set; }
         public Node<T>? Next { get; set; }
@@ -35,7 +36,7 @@ namespace list
     }
 
     //4.3? Если список<int> то count, если не int, то 0
-    public class LinkedList<T> where T : notnull
+    public class LinkedList<T> where T : notnull, IComparable<T>
     {
         public Node<T>? Head { get; set; }
         public int Count { get; private set; }
@@ -92,6 +93,35 @@ namespace list
             }
 
             return null;
+        }
+
+        public void InsertOrder(T value)
+        {
+            var temp = Head;
+            while(temp != null)
+            {
+                if(value.CompareTo(temp.Data) == 1)
+                {
+                    if (temp.Next == null)
+                    {
+                        temp.Next = new Node<T>(value);
+                        return;
+                    }
+                    else if(value.CompareTo(temp.Next.Data) == -1 ||
+                        value.CompareTo(temp.Next.Data) == 0)
+                    {
+                        var newNode = new Node<T>(value);
+
+                        newNode.Next = temp.Next;
+                        newNode.Prev = temp;
+                        temp.Next.Prev = newNode;
+                        temp.Next = newNode;
+                        return;
+                    }
+                }
+
+                temp = temp.Next;
+            }
         }
 
         public Node<T>? Last()
