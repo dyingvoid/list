@@ -5,13 +5,13 @@
         static void Main(string[] args)
         {
             var list = new LinkedList<int>();
-            for(int i = 0; i < 10; i++)
+            for(int i = 0; i < 2; i++)
             {
                 list.Insert(i);
             }
 
             list.Print();
-            list.Reverse();
+            list.HeadToTail();
             list.Print();
         }
     }
@@ -70,6 +70,22 @@
             }
 
             Head = prev;
+        }
+
+        public void HeadToTail()
+        {
+            var temp = Head;
+            var last = Last();
+
+            last.Next = temp;
+            temp.Prev = last;
+
+            if (temp.Next != null)
+            {
+                temp.Next.Prev = null;
+                Head = temp.Next;
+                temp.Next = null;
+            }
         }
 
         public void Print()
