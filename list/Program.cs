@@ -1,23 +1,26 @@
-﻿namespace list
+﻿using System.Diagnostics.Metrics;
+
+namespace list
 {
     internal class Program
     {
         static void Main(string[] args)
         {
             var list = new LinkedList<int>();
-            for(int i = 0; i < 1; i++)
+            for(int i = 0; i < 10; i++)
             {
-                list.Insert(i);
+                list.Insert(i / 2);
             }
 
             list.Print();
-            list.TailToHead();
+            list.DeleteNodes(list.FindDuplicates());
             list.Print();
+
             Console.WriteLine(list.Count);
         }
     }
 
-    public class Node<T>
+    public class Node<T> where T : notnull
     {
         public T Data { get; set; }
         public Node<T>? Next { get; set; }
@@ -31,9 +34,10 @@
         }
     }
 
-    public class LinkedList<T>
+    //4.3? Если список<int> то count, если не int, то 0
+    public class LinkedList<T> where T : notnull
     {
-        public Node<T> Head { get; set; }
+        public Node<T>? Head { get; set; }
         public int Count { get; private set; }
 
         public void Insert(T data)
@@ -49,10 +53,12 @@
             Count++;
         }
 
-        public Node<T> Last()
+        public Node<T>? Last()
         {
-            var temp = Head;
+            if (Count == 0 || Count == 1)
+                return Head;
 
+            var temp = Head;
             while(temp.Next != null)
                 temp = temp.Next;
 
@@ -115,6 +121,60 @@
             last.Next = temp;
             last.Prev = null;
             Head = last;
+        }
+
+        public List<Node<T>> FindDuplicates()
+        {
+            var dict = new Dictionary<T, int>();
+            var duplicates = new List<Node<T>>();
+            var temp = Head;
+
+            while (temp != null)
+            {
+                var result = dict.TryAdd(temp.Data, 1);
+                if (!result)
+                    duplicates.Add(temp);
+
+                temp = temp.Next;
+            }
+
+            return duplicates;
+        }
+
+        public void DeleteNode(Node<T> node)
+        {
+            if (Count == 0)
+                return;
+
+            Count--;
+            if (Count == 1 && node == Head)
+            {
+                Head = null;
+                return;
+            }
+
+            if(node == Head)
+            {
+                node.Next.Prev = null;
+                Head = node.Next;
+                return;
+            }
+            if(node == Last())
+            {
+                node.Prev.Next = null;
+                node.Prev = null;
+                return;
+            }
+
+            node.Prev.Next = node.Next;
+            node.Next.Prev = node.Prev;
+            node = null;
+        }
+
+        public void DeleteNodes(IEnumerable<Node<T>> nodes)
+        {
+            foreach(var node in nodes)
+                DeleteNode(node);
         }
 
         public void Print()
