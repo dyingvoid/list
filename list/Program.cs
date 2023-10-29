@@ -8,13 +8,15 @@ namespace list
         static void Main(string[] args)
         {
             var list = new LinkedList<int>();
-            for(int i = 10; i >= 0; i-=2)
+            for(int i = 0; i < 10; i++)
             {
-                list.Insert(i);
+                list.Insert(i / 2);
             }
 
             list.Print();
-            list.InsertOrder(7);
+            list.DeleteNodes(2);
+            list.Print();
+            list.DeleteNodes(4);
             list.Print();
 
             Console.WriteLine(list.Count);
@@ -212,6 +214,18 @@ namespace list
             return duplicates;
         }
 
+        public bool DeleteNode(T data)
+        {
+            var node = Find(data);
+            if(node is not null)
+            {
+                DeleteNode(node);
+                return true;
+            }
+
+            return false;
+        }
+
         public void DeleteNode(Node<T> node)
         {
             if (Count == 0)
@@ -246,6 +260,11 @@ namespace list
         {
             foreach(var node in nodes)
                 DeleteNode(node);
+        }
+
+        public void DeleteNodes(T data)
+        {
+            while (DeleteNode(data)) ;
         }
 
         public void Print()
