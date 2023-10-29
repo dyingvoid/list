@@ -316,6 +316,15 @@ namespace list
             return secondList;
         }
 
+        public void InsertSelfEnd()
+        {
+            var copy = CreateCopy();
+            var last = Last();
+
+            if(last is not null)
+                last.Next = copy.Head;
+        }
+
         // Вывести в консоль
         public void Print()
         {

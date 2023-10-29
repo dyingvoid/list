@@ -15,8 +15,7 @@ namespace list
             }
 
             list.Print();
-            var second = list.Split(5);
-            second.Print();
+            list.InsertSelfEnd();
             list.Print();
         }
     }
