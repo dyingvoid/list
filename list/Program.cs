@@ -12,14 +12,12 @@ namespace list
             for (int i = 0; i < 10; i++)
             {
                 list.Insert(i);
-                list2.Insert(i);
             }
 
             list.Print();
-            list.Insert(list2);
+            var second = list.Split(5);
+            second.Print();
             list.Print();
-
-            Console.WriteLine(list.Count);
         }
     }
 }

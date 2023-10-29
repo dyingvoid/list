@@ -10,7 +10,6 @@ namespace list
     public class LinkedList<T> where T : notnull, IComparable<T>
     {
         public Node<T>? Head { get; set; }
-        public int Count { get; private set; }
 
         // Вставить в начало списка
         public void Insert(T data)
@@ -22,8 +21,6 @@ namespace list
                 Head.Prev = node;
 
             Head = node;
-
-            Count++;
         }
 
         // Вставить список в начало списка
@@ -155,7 +152,7 @@ namespace list
         // Последний элемент
         public Node<T>? Last()
         {
-            if (Count == 0 || Count == 1)
+            if (Head is null || Head.Next is null)
                 return Head;
 
             var temp = Head;
@@ -168,7 +165,7 @@ namespace list
         // Перевернуть
         public void Reverse()
         {
-            if (Count <= 1)
+            if (Head is null || Head.Next is null)
                 return;
 
             Node<T> next = null;
@@ -189,7 +186,7 @@ namespace list
         // Переместить начальный узел в конец
         public void HeadToTail()
         {
-            if (Count <= 1)
+            if (Head is null || Head.Next is null)
                 return;
 
             var temp = Head;
@@ -209,7 +206,7 @@ namespace list
         // Переместить последний узел в начало
         public void TailToHead()
         {
-            if (Count <= 1)
+            if (Head is null || Head.Next is null)
                 return;
 
             var last = Last();
@@ -261,11 +258,10 @@ namespace list
         // Удалить узел
         public void DeleteNode(Node<T> node)
         {
-            if (Count == 0)
+            if (Head is null)
                 return;
 
-            Count--;
-            if (Count == 1 && node == Head)
+            if (Head.Next is null && node == Head)
             {
                 Head = null;
                 return;
@@ -302,9 +298,33 @@ namespace list
             while (DeleteNode(data)) ;
         }
 
+        public LinkedList<T>? Split(T value)
+        {
+            var secondList = new LinkedList<T>();
+            var node = Find(value);
+            if(node is null)
+                return secondList;
+   
+
+            secondList.Head = node;
+
+            if (node == Head)
+                Head = null;
+            else
+                node.Prev.Next = null;
+
+            return secondList;
+        }
+
         // Вывести в консоль
         public void Print()
         {
+            if(Head == null)
+            {
+                Console.WriteLine("NULL");
+                return;
+            }
+            
             var temp = Head;
             Console.Write(temp.Data + " -> ");
 
