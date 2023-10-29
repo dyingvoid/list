@@ -8,13 +8,15 @@ namespace list
         static void Main(string[] args)
         {
             var list = new LinkedList<int>();
+            var list2 = new LinkedList<int>();
             for(int i = 0; i < 10; i++)
             {
                 list.Insert(i);
+                list2.Insert(i);
             }
 
             list.Print();
-            list.TryInsertBefore(12, 9);
+            list.Insert(list2);
             list.Print();
 
             Console.WriteLine(list.Count);
@@ -52,6 +54,17 @@ namespace list
             Head = node;
 
             Count++;
+        }
+
+        public void Insert(LinkedList<T> list)
+        {
+            var node = list.Last();
+            while(node is not null)
+            {
+                node.Next = Head;
+                Head = node;
+                node = node.Prev;
+            }
         }
 
         public void InsertSelf(T value)
