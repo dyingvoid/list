@@ -10,13 +10,11 @@ namespace list
             var list = new LinkedList<int>();
             for(int i = 0; i < 10; i++)
             {
-                list.Insert(i / 2);
+                list.Insert(i);
             }
 
             list.Print();
-            list.DeleteNodes(2);
-            list.Print();
-            list.DeleteNodes(4);
+            list.TryInsertBefore(12, 9);
             list.Print();
 
             Console.WriteLine(list.Count);
@@ -97,6 +95,19 @@ namespace list
             return null;
         }
 
+        public bool TryFind(T value, out Node<T> node)
+        {
+            var foundNode = Find(value);
+            if(foundNode != null)
+            {
+                node = foundNode;
+                return true;
+            }
+
+            node = new Node<T>(default);
+            return false;
+        }
+
         public void InsertOrder(T value)
         {
             var temp = Head;
@@ -124,6 +135,30 @@ namespace list
 
                 temp = temp.Next;
             }
+        }
+
+        public bool TryInsertBefore(T value, T node)
+        {
+            if (!TryFind(node, out var foundNode))
+                return false;
+            
+            InsertBefore(new Node<T>(value), foundNode);
+
+            return true;
+        }
+
+        public void InsertBefore(Node<T> nodeInsert, Node<T> node)
+        {
+            nodeInsert.Prev = node.Prev;
+            nodeInsert.Next = node;
+
+            if (node.Prev != null)
+                node.Prev.Next = nodeInsert;
+
+            node.Prev = nodeInsert;
+
+            if(node == Head)
+                Head = nodeInsert;
         }
 
         public Node<T>? Last()
