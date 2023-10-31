@@ -327,6 +327,72 @@ namespace list
                 last.Next = copy.Head;
         }
 
+        public void Swap(Node<T> node1, Node<T> node2)
+        {
+            if (node1 == node2)
+                return;
+
+            if (node1.Next == node2)
+                SwapNeighbours(node1, node2);
+            else if (node2.Next == node1)
+                SwapNeighbours(node2, node1);
+            else
+            {
+                var n1Prev = node1.Prev;
+                var n1Next = node1.Next;
+                var n2Prev = node2.Prev;
+                var n2Next = node2.Next;
+
+                if (n1Prev is not null)
+                    n1Prev.Next = node2;
+                if (n1Next is not null)
+                    n1Next.Prev = node2;
+                if(n2Prev is not null)
+                    n2Prev.Next = node1;
+                if (n2Next is not null)
+                    n2Next.Prev = node1;
+
+                node1.Next = n2Next;
+                node1.Prev = n2Prev;
+                node2.Next = n1Next;
+                node2.Prev = n1Prev;
+            }
+
+            if (node1 == Head)
+                Head = node2;
+            else if (node2 == Head)
+                Head = node1;
+        }
+
+        private void SwapNeighbours(Node<T> left, Node<T> right)
+        {
+            var lPrev = left.Prev;
+            var lNext = left.Next;
+            var rPrev = right.Prev;
+            var rNext = right.Next;
+
+            if (lPrev is not null)
+                lPrev.Next = right;
+            if (rNext is not null)
+                rNext.Prev = left;
+
+            left.Next = rNext;
+            left.Prev = right;
+            right.Prev = lPrev;
+            right.Next = left;
+        }
+
+        public Node<T> Index(int index)
+        {
+            var temp = Head;
+            for(int i = 0; i < index; i++)
+            {
+                temp = temp.Next;
+            }
+
+            return temp;
+        }
+
         // Вывести в консоль
         public void Print()
         {
