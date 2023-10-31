@@ -15,7 +15,7 @@ namespace list
             }
 
             list.Print();
-            list.InsertSelfEnd();
+            list.Swap(list.Index(3), list.Index(2));
             list.Print();
         }
     }
