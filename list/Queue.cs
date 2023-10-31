@@ -17,6 +17,15 @@ namespace list
 
         public int Count() => this.List.Count;
 
+
+        // Вставляем элемент
+        public void EnQueue(T element)
+        {
+            List.Insert(element);
+            List.HeadToTail();
+            List.Count++;
+        }
+        
         // Проверяем на пустоту
         public bool IsEmpty()
         {
@@ -25,12 +34,11 @@ namespace list
             return true;
         }
 
-        // Вставляем элемент
-        public void EnQueue(T element)
+        
+        // Первый элемент
+        public Node<T> First()
         {
-            List.Insert(element);
-            List.HeadToTail();
-            List.Count++;
+            return List.Head!;
         }
 
         // Вытягиваем элемент
@@ -42,12 +50,6 @@ namespace list
             List.DeleteNode(element!);
             List.Count--;
             return element!.Data;
-        }
-
-        // Первый элемент
-        public Node<T> First()
-        {
-            return List.Head!;
         }
     }
 }
