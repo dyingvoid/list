@@ -18,5 +18,10 @@ namespace list
             Next = null;
             Prev = null;
         }
+
+        public override string ToString()
+        {
+            return Data.ToString();
+        }
     }
 }
