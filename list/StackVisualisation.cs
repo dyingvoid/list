@@ -19,9 +19,14 @@ namespace list
             //Console.WriteLine(result);
         }
 
+        public StackVisualisation(string operationNumber)
+        {
+            DoOperation(operationNumber);
+        }
+
         private static string ReadFile(string fileName) => File.ReadAllText($"..\\..\\..\\..\\{fileName}");
 
-        private static void DoOperation(string operationNumber)
+        public static void DoOperation(string operationNumber)
         {
             Stack<string> stack = new();
             List<string> numbers = operationNumber.Split(" ").ToList().Where(x => !x.Equals(string.Empty)).ToList();
