@@ -11,6 +11,8 @@ namespace list
     {
         public Node<T>? Head { get; set; }
 
+        public int Count { get; set; }
+
         // Вставить в начало списка
         public void Insert(T data)
         {

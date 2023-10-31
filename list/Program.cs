@@ -7,6 +7,8 @@ namespace list
     {
         static void Main(string[] args)
         {
+            StackVisualisation stackVisualisation = new();
+
             var list = new LinkedList<int>();
             var list2 = new LinkedList<int>();
             for (int i = 0; i < 10; i++)
