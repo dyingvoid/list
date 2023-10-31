@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace list
 {
-    public class Stack<T> : LinkedList<T> where T : notnull, IComparable<T>
+    public class Queue<T> : LinkedList<T> where T : notnull, IComparable<T>
     {
         public LinkedList<T> List { get; }
 
-        public Stack()
+        public Queue()
         {
             List = new();
         }
@@ -27,25 +26,26 @@ namespace list
         }
 
         // Вставляем элемент
-        public void Push(T element)
+        public void EnQueue(T element)
         {
             List.Insert(element);
+            List.HeadToTail();
             List.Count++;
         }
 
         // Вытягиваем элемент
-        public T Pop()
+        public T DeQueue()
         {
             if (IsEmpty())
-                throw new InvalidOperationException("Stack empty");
+                throw new InvalidOperationException("Queue empty");
             var element = List.Head;
             List.DeleteNode(element!);
             List.Count--;
             return element!.Data;
         }
 
-        // Вершина
-        public Node<T> Top()
+        // Первый элемент
+        public Node<T> First()
         {
             return List.Head!;
         }

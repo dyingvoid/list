@@ -10,13 +10,13 @@ namespace list
     {
         public StackVisualisation()
         {
-            //string inputFileLine = ReadFile("input.txt");
-            //DoOperation(inputFileLine);
+            string inputFileLine = ReadFile("input.txt");
+            DoOperation(inputFileLine);
 
-            string inputFileLine = ReadFile("input2.txt");
-            List<string> operation = inputFileLine.Split(" ").ToList().Where(x => !x.Equals(string.Empty)).ToList();
-            double result = CalculateRPN(operation);
-            Console.WriteLine(result);
+            //string inputFileLine = ReadFile("input2.txt");
+            //List<string> operation = inputFileLine.Split(" ").ToList().Where(x => !x.Equals(string.Empty)).ToList();
+            //double result = CalculateRPN(operation);
+            //Console.WriteLine(result);
         }
 
         private static string ReadFile(string fileName) => File.ReadAllText($"..\\..\\..\\..\\{fileName}");
