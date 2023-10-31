@@ -16,6 +16,8 @@ namespace list
             List = new();
         }
 
+        public int Count() => this.List.Count;
+
         public bool IsEmpty()
         {
             if (List.Head != null)
@@ -27,6 +29,7 @@ namespace list
         {
             List.Insert(element);
             List.HeadToTail();
+            List.Count++;
         }
 
         public T Pop()
