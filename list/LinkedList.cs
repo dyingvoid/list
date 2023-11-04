@@ -178,6 +178,7 @@ namespace list
             {
                 next = current.Next;
                 current.Next = current.Prev;
+                current.Prev = next;
                 prev = current;
                 current = next;
             }
@@ -244,6 +245,33 @@ namespace list
             return duplicates;
         }
 
+        public void DeleteDuplicates()
+        {
+            var duplicates = FindDuplicates();
+            DeleteNodes(duplicates);
+        }
+
+        //Find uniques number
+        public int UniqueNumber()
+        {
+            var counter = 0;
+            var dict = new Dictionary<T, int>();
+            var duplicates = new List<Node<T>>();
+            var temp = Head;
+
+            while (temp != null)
+            {
+                var result = dict.TryAdd(temp.Data, 1);
+                if (!result)
+                    duplicates.Add(temp);
+
+                temp = temp.Next;
+                counter++;
+            }
+
+            return counter - duplicates.Count;
+        }
+
         // удалить первый узел с данными
         public bool DeleteNode(T data)
         {
@@ -291,7 +319,9 @@ namespace list
         public void DeleteNodes(IEnumerable<Node<T>> nodes)
         {
             foreach (var node in nodes)
+            {
                 DeleteNode(node);
+            }
         }
 
         // Удалить все узлы с data
@@ -403,11 +433,11 @@ namespace list
             }
             
             var temp = Head;
-            Console.Write(temp.Data + " -> ");
+            Console.Write(temp.Data + " <-> ");
 
             while (temp.Next != null)
             {
-                Console.Write(temp.Next.Data + " -> ");
+                Console.Write(temp.Next.Data + " <-> ");
                 temp = temp.Next;
             }
 
