@@ -15,7 +15,7 @@ namespace list
             DoOperation(inputFileLine);
         }
 
-        private static string ReadFile(string fileName) => File.ReadAllText($"..\\..\\..\\..\\{fileName}");
+        private static string ReadFile(string fileName) => File.ReadAllText($"..\\..\\..\\files\\{fileName}");
 
         private static void DoOperation(string operationNumber)
         {

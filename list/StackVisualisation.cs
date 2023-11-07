@@ -26,7 +26,7 @@ namespace list
             DoOperation(operationNumber);
         }
 
-        private static string ReadFile(string fileName) => File.ReadAllText($"..\\..\\..\\..\\{fileName}");
+        private static string ReadFile(string fileName) => File.ReadAllText($"..\\..\\..\\files\\{fileName}");
 
         public static void DoOperation(string operationNumber)
         {
