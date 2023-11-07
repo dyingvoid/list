@@ -4,9 +4,9 @@
     {
         static void Main(string[] args)
         {
-            //StackVisualisation stackVisualisation = new();
-            //QueueVisualisation queueVisualisation = new();
-
+            StackVisualisation stackVisualisation = new();
+            Console.WriteLine();
+            QueueVisualisation queueVisualisation = new();
             //Tests tests = new();
 
             //var list = new LinkedList<int>();
@@ -20,7 +20,7 @@
             //list.Swap(list.Index(3), list.Index(2));
             //list.Print();
 
-            LinkedListDemonstartion();
+            //LinkedListDemonstartion();
         }
 
         static void LinkedListDemonstartion()

@@ -10,13 +10,15 @@ namespace list
     {
         public StackVisualisation()
         {
-            string inputFileLine = ReadFile("input.txt");
-            DoOperation(inputFileLine);
+            Console.WriteLine("Задание 1.2: Реализация стека\n");
+            string fileForTask2 = ReadFile("input.txt");
+            DoOperation(fileForTask2);
 
-            //string inputFileLine = ReadFile("input2.txt");
-            //List<string> operation = inputFileLine.Split(" ").ToList().Where(x => !x.Equals(string.Empty)).ToList();
-            //double result = CalculateRPN(operation);
-            //Console.WriteLine(result);
+            Console.WriteLine("\nЗадание 1.4: Вычисление выражения, записанного в постфиксной записи\n");
+            string fileForTask45 = ReadFile("input2.txt");
+            string inf = ParseInRPN(fileForTask45);
+            List<string> operation = inf.Split(" ").ToList().Where(x => !x.Equals(string.Empty)).ToList();
+            Console.WriteLine($"{fileForTask45} = {ParseInRPN(fileForTask45)} = {CalculateRPN(operation)}");
         }
 
         public StackVisualisation(string operationNumber)
@@ -24,7 +26,7 @@ namespace list
             DoOperation(operationNumber);
         }
 
-        private static string ReadFile(string fileName) => File.ReadAllText($"..\\..\\..\\..\\{fileName}");
+        private static string ReadFile(string fileName) => File.ReadAllText($"..\\..\\..\\files\\{fileName}");
 
         public static void DoOperation(string operationNumber)
         {
@@ -72,12 +74,80 @@ namespace list
             }
         }
 
+        public static string ParseInRPN(string input)
+        {
+            string output = string.Empty;
+            Stack<char> stack = new();
+
+            for (int i = 0; i < input.Length; i++)
+            {
+
+                if (Char.IsDigit(input[i]))
+                {
+                    while  (!IsOperation(input[i]))
+                    {
+                        output += input[i];
+                        i++;
+
+                        if (i == input.Length) break;
+                    }
+
+                    output += " ";
+                    i--;
+                }
+
+                if (IsOperation(input[i]))
+                {
+                    if (input[i] == '(')
+                        stack.Push(input[i]);
+                    else if (input[i] == ')')
+                    {
+                        char s = (char)stack.Pop();
+
+                        while (s != '(')
+                        {
+                            output += s.ToString() + ' ';
+                            s = (char)stack.Pop();
+                        }
+                    }
+                    else
+                    {
+                        if (stack.List.Head != null)
+                            if (GetPriority(input[i]) <= GetPriority(stack.List.Head.Data))
+                                output += stack.Pop().ToString() + " ";
+
+                        stack.Push(char.Parse(input[i].ToString()));
+                    }
+                }
+            }
+
+            while (stack.List.Head != null)
+                output += (char)stack.Pop() + " ";
+
+            return output;
+        }
+
+        static private byte GetPriority(char s)
+        {
+            return s switch
+            {
+                '(' => 0,
+                ')' => 1,
+                '+' => 2,
+                '-' => 3,
+                '*' => 4,
+                '/' => 4,
+                '^' => 5,
+                _ => 6,
+            };
+        }
+
+        private static bool IsOperation(char symbol) => "+-/*^()".IndexOf(symbol) != -1;
+
         private static double CalculateRPN(List<string> rpn)
         {
             if (rpn.Count == 0)
-            {
-                throw new ArgumentException("Invalid number of values");
-            }
+                throw new ArgumentException("error: нет выражения");
 
             Stack<double> calc = new();
             foreach (var element in rpn)
@@ -89,7 +159,7 @@ namespace list
                 }
                 else if (IsOperation(element))
                 {
-                    if (calc.Count() < 2)
+                    if (calc.List.Head.Next == null)
                     {
                         double first = calc.Pop();
                         calc.Push(CalculateOperation(first: first, operation: element));
@@ -98,14 +168,11 @@ namespace list
                     {
                         double second = calc.Pop();
                         double first = calc.Pop();
-
                         calc.Push(CalculateOperation(first: first, second: second, operation: element));
                     }
                 }
                 else
-                {
-                    throw new ArgumentException("Invalid value");
-                }
+                    throw new ArgumentException("error: непонятное число");
             }
 
             return calc.Pop();
@@ -113,25 +180,17 @@ namespace list
 
         private static double CalculateOperation(double first, string operation, double second = 0)
         {
-            switch (operation)
+            return operation switch
             {
-                case "+":
-                    return first + second;
-                case "-":
-                    return first - second;
-                case "/":
-                    return first / second;
-                case "*":
-                    return first * second;
-                case "ln":
-                    return Math.Log(first);
-                case "cos":
-                    return Math.Cos(first);
-                case "^":
-                    return Math.Pow(first, second);
-                default:
-                    throw new Exception("Invalid operation");
-            }
+                "+" => first + second,
+                "-" => first - second,
+                "/" => first / second,
+                "*" => first * second,
+                "ln" => Math.Log(first),
+                "cos" => Math.Cos(first),
+                "^" => Math.Pow(first, second),
+                _ => throw new Exception("error: такой операции не существует"),
+            };
         }
 
         private static bool IsOperation(string operation) => operation.Equals("+")
