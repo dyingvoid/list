@@ -1,7 +1,4 @@
-﻿using System.Diagnostics.Metrics;
-using System.Net.Http.Headers;
-
-namespace list
+﻿namespace list
 {
     internal class Program
     {
