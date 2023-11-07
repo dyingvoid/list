@@ -10,18 +10,8 @@ namespace list
             StackVisualisation stackVisualisation = new();
             Console.WriteLine();
             QueueVisualisation queueVisualisation = new();
+            Console.WriteLine();
             //Tests tests = new();
-
-            //var list = new LinkedList<int>();
-            //var list2 = new LinkedList<int>();
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    list.Insert(i);
-            //}
-
-            //list.Print();
-            //list.Swap(list.Index(3), list.Index(2));
-            //list.Print();
 
             //LinkedListDemonstartion();
         }

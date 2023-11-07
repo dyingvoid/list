@@ -34,7 +34,7 @@ namespace list
         public T Pop()
         {
             if (IsEmpty())
-                return (T)Convert.ChangeType("error: Невозможно взять элемент, так как очередь пустая", typeof(T));
+                return (T)Convert.ChangeType("error: Невозможно взять элемент, так как стек пустой", typeof(T));
             var element = List.Head;
             List.DeleteNode(element!);
             return element.Data;

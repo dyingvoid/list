@@ -1,22 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace list
 {
-    public class QueueVisualisation
+    class StackCSharp
     {
-        public QueueVisualisation()
-        {
-            Console.WriteLine("Задание 2.2: Реализация очереди\n");
-            string inputFileLine = ReadFile("input.txt");
-            DoOperation(inputFileLine);
-        }
-
-        // Для тестов
-        public QueueVisualisation(string path)
+        public StackCSharp(string path) 
         {
             string file = ReadFile(path);
             DoOperation(file);
@@ -26,7 +20,7 @@ namespace list
 
         private static void DoOperation(string operationNumber)
         {
-            Queue<string> queue = new();
+            Stack stack = new();
             List<string> numbers = operationNumber.Split(" ").ToList().Where(x => !x.Equals(string.Empty)).ToList();
             foreach (var num in numbers)
             {
@@ -35,35 +29,28 @@ namespace list
                 if (num.Length > 1)
                 {
                     string[] operation = currNum.Split(",");
-                    ExecOperation(queue, operation[0], operation[1]);
+                    ExecOperation(stack, operation[0], operation[1]);
                 }
                 else
                 {
-                    ExecOperation(queue, currNum);
+                    ExecOperation(stack, currNum);
                 }
             }
         }
 
-        private static void ExecOperation(Queue<string> queue, string operationNumber, string value = "")
+        private static void ExecOperation(Stack stack, string operationNumber, string value = "")
         {
             switch (operationNumber)
             {
                 case "1":
-                    Console.WriteLine($"EnQueue: {value}");
-                    queue.EnQueue(value);
+                    Console.WriteLine($"Push {value}");
+                    stack.Push(value);
                     break;
                 case "2":
-                    Console.WriteLine($"DeQueue: {queue.DeQueue()}");
+                    Console.WriteLine($"Pop {stack.Pop()}");
                     break;
                 case "3":
-                    Console.WriteLine($"First: {queue.First()}");
-                    break;
-                case "4":
-                    Console.WriteLine($"IsEmpty: {queue.IsEmpty()}");
-                    break;
-                case "5":
-                    Console.Write("Print: ");
-                    queue.List.Print();
+                    Console.WriteLine($"Top {stack.Peek()}");
                     break;
                 default:
                     Console.WriteLine("error: такой команды не существует");

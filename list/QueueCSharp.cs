@@ -1,22 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace list
 {
-    public class QueueVisualisation
+    class QueueCSharp
     {
-        public QueueVisualisation()
-        {
-            Console.WriteLine("Задание 2.2: Реализация очереди\n");
-            string inputFileLine = ReadFile("input.txt");
-            DoOperation(inputFileLine);
-        }
-
-        // Для тестов
-        public QueueVisualisation(string path)
+        public QueueCSharp(string path) 
         {
             string file = ReadFile(path);
             DoOperation(file);
@@ -26,7 +20,7 @@ namespace list
 
         private static void DoOperation(string operationNumber)
         {
-            Queue<string> queue = new();
+            Queue queue = new();
             List<string> numbers = operationNumber.Split(" ").ToList().Where(x => !x.Equals(string.Empty)).ToList();
             foreach (var num in numbers)
             {
@@ -44,26 +38,19 @@ namespace list
             }
         }
 
-        private static void ExecOperation(Queue<string> queue, string operationNumber, string value = "")
+        private static void ExecOperation(Queue queue, string operationNumber, string value = "")
         {
             switch (operationNumber)
             {
                 case "1":
-                    Console.WriteLine($"EnQueue: {value}");
-                    queue.EnQueue(value);
+                    Console.WriteLine($"EnQueue {value}");
+                    queue.Enqueue(value);
                     break;
                 case "2":
-                    Console.WriteLine($"DeQueue: {queue.DeQueue()}");
+                    Console.WriteLine($"DeQueue {queue.Dequeue()}");
                     break;
                 case "3":
-                    Console.WriteLine($"First: {queue.First()}");
-                    break;
-                case "4":
-                    Console.WriteLine($"IsEmpty: {queue.IsEmpty()}");
-                    break;
-                case "5":
-                    Console.Write("Print: ");
-                    queue.List.Print();
+                    Console.WriteLine($"First {queue.Peek()}");
                     break;
                 default:
                     Console.WriteLine("error: такой команды не существует");

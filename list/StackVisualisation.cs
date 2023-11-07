@@ -21,14 +21,16 @@ namespace list
             Console.WriteLine($"{fileForTask45} = {ParseInRPN(fileForTask45)} = {CalculateRPN(operation)}");
         }
 
-        public StackVisualisation(string operationNumber)
+        // Для тестов
+        public StackVisualisation(string path)
         {
-            DoOperation(operationNumber);
+            string file = ReadFile(path);
+            DoOperation(file);
         }
 
         private static string ReadFile(string fileName) => File.ReadAllText($"..\\..\\..\\files\\{fileName}");
 
-        public static void DoOperation(string operationNumber)
+        private static void DoOperation(string operationNumber)
         {
             Stack<string> stack = new();
             List<string> numbers = operationNumber.Split(" ").ToList().Where(x => !x.Equals(string.Empty)).ToList();
@@ -39,11 +41,11 @@ namespace list
                 if (num.Length > 1)
                 {
                     string[] operation = currNum.Split(",");
-                    ExecOperation(stack: stack, operationNumber: operation[0], value: operation[1]);
+                    ExecOperation(stack, operation[0], operation[1]);
                 }
                 else
                 {
-                    ExecOperation(stack: stack, operationNumber: currNum);
+                    ExecOperation(stack, currNum);
                 }
             }
         }
@@ -70,13 +72,14 @@ namespace list
                     stack.List.Print();
                     break;
                 default:
-                    throw new Exception("Invalid operation");
+                    Console.WriteLine("error: такой команды не существует");
+                    break;
             }
         }
 
         public static string ParseInRPN(string input)
         {
-            string output = string.Empty;
+            string stringRPN = string.Empty;
             Stack<char> stack = new();
 
             for (int i = 0; i < input.Length; i++)
@@ -86,13 +89,13 @@ namespace list
                 {
                     while  (!IsOperation(input[i]))
                     {
-                        output += input[i];
+                        stringRPN += input[i];
                         i++;
 
                         if (i == input.Length) break;
                     }
 
-                    output += " ";
+                    stringRPN += " ";
                     i--;
                 }
 
@@ -106,7 +109,7 @@ namespace list
 
                         while (s != '(')
                         {
-                            output += s.ToString() + ' ';
+                            stringRPN += s.ToString() + ' ';
                             s = (char)stack.Pop();
                         }
                     }
@@ -114,7 +117,7 @@ namespace list
                     {
                         if (stack.List.Head != null)
                             if (GetPriority(input[i]) <= GetPriority(stack.List.Head.Data))
-                                output += stack.Pop().ToString() + " ";
+                                stringRPN += stack.Pop().ToString() + " ";
 
                         stack.Push(char.Parse(input[i].ToString()));
                     }
@@ -122,12 +125,12 @@ namespace list
             }
 
             while (stack.List.Head != null)
-                output += (char)stack.Pop() + " ";
+                stringRPN += (char)stack.Pop() + " ";
 
-            return output;
+            return stringRPN;
         }
 
-        static private byte GetPriority(char s)
+        private static byte GetPriority(char s)
         {
             return s switch
             {
