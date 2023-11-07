@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace list
 {
-    public class Stack<T> : LinkedList<T> where T : notnull, IComparable<T>
+    public class Stack<T> where T : notnull, IComparable<T>
     {
         public LinkedList<T> List { get; }
 
@@ -15,8 +15,6 @@ namespace list
         {
             List = new();
         }
-
-        public int Count() => this.List.Count;
 
         // Проверяем на пустоту
         public bool IsEmpty()
@@ -30,24 +28,22 @@ namespace list
         public void Push(T element)
         {
             List.Insert(element);
-            List.Count++;
         }
 
-        // Вытягиваем элемент
+        // Вытягиваем элемент (сделать защиту от падения)
         public T Pop()
         {
             if (IsEmpty())
-                throw new InvalidOperationException("Stack empty");
+                return (T)Convert.ChangeType("error: Невозможно взять элемент, так как очередь пустая", typeof(T));
             var element = List.Head;
             List.DeleteNode(element!);
-            List.Count--;
-            return element!.Data;
+            return element.Data;
         }
 
         // Вершина
-        public Node<T> Top()
+        public Node<T>? Top()
         {
-            return List.Head!;
+            return List.Head;
         }
     }
 }

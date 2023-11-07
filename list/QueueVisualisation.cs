@@ -10,6 +10,7 @@ namespace list
     {
         public QueueVisualisation()
         {
+            Console.WriteLine("Задание 2.2: Реализация очереди\n");
             string inputFileLine = ReadFile("input.txt");
             DoOperation(inputFileLine);
         }
@@ -27,11 +28,11 @@ namespace list
                 if (num.Length > 1)
                 {
                     string[] operation = currNum.Split(",");
-                    ExecOperation(queue: queue, operationNumber: operation[0], value: operation[1]);
+                    ExecOperation(queue, operation[0], operation[1]);
                 }
                 else
                 {
-                    ExecOperation(queue: queue, operationNumber: currNum);
+                    ExecOperation(queue, currNum);
                 }
             }
         }
@@ -41,24 +42,25 @@ namespace list
             switch (operationNumber)
             {
                 case "1":
-                    Console.WriteLine($"EnQueue {value}");
+                    Console.WriteLine($"EnQueue: {value}");
                     queue.EnQueue(value);
                     break;
                 case "2":
-                    Console.WriteLine($"DeQueue {queue.DeQueue()}");
+                    Console.WriteLine($"DeQueue: {queue.DeQueue()}");
                     break;
                 case "3":
-                    Console.WriteLine($"First {queue.First()}");
+                    Console.WriteLine($"First: {queue.First()}");
                     break;
                 case "4":
-                    Console.WriteLine($"IsEmpty {queue.IsEmpty()}");
+                    Console.WriteLine($"IsEmpty: {queue.IsEmpty()}");
                     break;
                 case "5":
-                    Console.WriteLine("Print ");
+                    Console.Write("Print: ");
                     queue.List.Print();
                     break;
                 default:
-                    throw new Exception("Invalid operation");
+                    Console.WriteLine("error: такой команды не существует");
+                    break;
             }
         }
     }

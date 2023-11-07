@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace list
 {
-    public class Queue<T> : LinkedList<T> where T : notnull, IComparable<T>
+    public class Queue<T> where T : notnull, IComparable<T>
     {
         public LinkedList<T> List { get; }
 
@@ -15,15 +15,11 @@ namespace list
             List = new();
         }
 
-        public int Count() => this.List.Count;
-
-
         // Вставляем элемент
         public void EnQueue(T element)
         {
             List.Insert(element);
             List.HeadToTail();
-            List.Count++;
         }
         
         // Проверяем на пустоту
@@ -33,23 +29,21 @@ namespace list
                 return false;
             return true;
         }
-
         
         // Первый элемент
-        public Node<T> First()
+        public Node<T>? First()
         {
-            return List.Head!;
+            return List.Head;
         }
 
         // Вытягиваем элемент
         public T DeQueue()
         {
             if (IsEmpty())
-                throw new InvalidOperationException("Queue empty");
+                return (T)Convert.ChangeType("error: Невозможно взять элемент, так как очередь пустая", typeof(T));
             var element = List.Head;
-            List.DeleteNode(element!);
-            List.Count--;
-            return element!.Data;
+            List.DeleteNode(element);
+            return element.Data;
         }
     }
 }

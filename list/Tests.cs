@@ -37,7 +37,7 @@ namespace list
             File.WriteAllText("..\\..\\..\\..\\testfile.txt", stringBuilder.ToString().Trim());
         }
 
-        private static void Test(string line)
+        private static void Test(string line) // доделать и сравнить со стеком в вижуалке
         {
             Stopwatch stopwatch = new();
             string results = "Количество операций;Время (миллисекунды)\n";
